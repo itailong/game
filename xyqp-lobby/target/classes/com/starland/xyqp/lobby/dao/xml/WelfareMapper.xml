@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.WelfareDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Welfare" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="progress" property="progress" />
+		<result column="last_time" property="lastTime" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			progress,
+			last_time
+		from dt_welfare
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="userId != null" >
+				and user_id = #{userId}
+			</if>
+			<if test="progress != null" >
+				and progress = #{progress}
+			</if>
+			<if test="lastTime != null" >
+				and last_time = #{lastTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			progress,
+			last_time
+		from dt_welfare
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			dt_welfare(
+			user_id,
+			progress,
+			last_time
+		) values(
+			#{userId},
+			#{progress},
+			#{lastTime}
+		)
+	</insert>
+	
+	<update id="update">
+		update dt_welfare 
+		set 
+			user_id = #{userId},
+			progress = #{progress},
+			last_time = #{lastTime}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dt_welfare where id = #{id}
+	</delete>
+	
+	<select id="getByUserId" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			progress,
+			last_time
+		from dt_welfare
+		where user_id = #{userId}
+	</select>
+	
+</mapper>

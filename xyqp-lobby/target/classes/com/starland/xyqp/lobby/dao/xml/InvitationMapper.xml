@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.InvitationDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Invitation" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="invitation_code" property="invitationCode" />
+		<result column="invitation_bind" property="invitationBind" />
+		<result column="invitation_phone" property="invitationPhone" />
+	</resultMap>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			name,
+			invitation_code,
+			invitation_bind,
+			invitation_phone
+		from dt_invitation
+		where invitation_code = #{invitation_code}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			dt_invitation(
+			name,
+			invitation_code,
+			invitation_bind,
+			invitation_phone
+		) values(
+			#{name},
+			#{invitationCode},
+			#{invitationBind},
+			#{invitationPhone}
+		)
+	</insert>
+	
+	<update id="update">
+		update dt_invitation 
+		set 
+			name = #{name},
+			invitation_code = #{invitationCode},
+			invitation_bind = #{invitationBind},
+			invitation_phone = #{invitationPhone}
+		where id = #{id}
+	</update>
+	
+</mapper>

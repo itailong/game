@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.FightDetailDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.FightDetail" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="exploits_id" property="exploitsId" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="position" property="position" />
+		<result column="score" property="score" />
+	</resultMap>
+	
+	<select id="findByExploitsIds" resultMap="SimpleMap">
+		select
+			id,
+			exploits_id,
+			user_id,
+			user_name,
+			position,
+			score
+		from yx_fight_detail
+		where exploits_id in
+		<foreach collection="ids" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</select>
+	
+</mapper>

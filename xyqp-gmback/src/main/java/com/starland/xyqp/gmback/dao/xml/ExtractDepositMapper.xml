@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.ExtractDepositDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.ExtractDeposit" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="agent_id" property="agentId" />
+		<result column="money" property="money" />
+		<result column="create_time" property="createTime" />
+		<result column="remark" property="remark" />
+		<result column="receiver_name" property="receiverName" />
+		<result column="bank_name" property="bankName" />
+		<result column="bank_account" property="bankAccount" />
+		<result column="status" property="status" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			agent_id,
+			money,
+			create_time,
+			remark,
+			receiver_name,
+			bank_name,
+			bank_account,
+			status
+		from gmb_extract_deposit
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="agentId != null" >
+				and agent_id = #{agentId}
+			</if>
+			<if test="money != null" >
+				and money = #{money}
+			</if>
+			<if test="remark != '' and remark != null" >
+				and remark = #{remark}
+			</if>
+			<if test="receiverName != '' and receiverName != null" >
+				and receiver_name = #{receiverName}
+			</if>
+			<if test="bankName != '' and bankName != null" >
+				and bank_name = #{bankName}
+			</if>
+			<if test="bankAccount != '' and bankAccount != null" >
+				and bank_account = #{bankAccount}
+			</if>
+			<if test="status != null" >
+				and status = #{status}
+			</if>
+			<if test="startTime != null" >
+				and create_time &gt; #{startTime}
+			</if>
+			<if test="endTime != null" >
+				and create_time &lt; #{endTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			agent_id,
+			money,
+			create_time,
+			remark,
+			receiver_name,
+			bank_name,
+			bank_account,
+			status
+		from gmb_extract_deposit
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			gmb_extract_deposit(
+			agent_id,
+			money,
+			create_time,
+			remark,
+			receiver_name,
+			bank_name,
+			bank_account,
+			status
+		) values(
+			#{agentId},
+			#{money},
+			#{createTime},
+			#{remark},
+			#{receiverName},
+			#{bankName},
+			#{bankAccount},
+			#{status}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_extract_deposit 
+		set 
+			remark = #{remark},
+			receiver_name = #{receiverName},
+			bank_name = #{bankName},
+			bank_account = #{bankAccount},
+			status = #{status}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_extract_deposit where id = #{id}
+	</delete>
+	
+	<update id="updateSuccess">
+		update gmb_extract_deposit 
+		set 
+			status = 2
+		where id = #{id}
+	</update>
+	
+	<update id="updateFail">
+		update gmb_extract_deposit 
+		set 
+			remark = #{remark},
+			status = 3
+		where id = #{id}
+	</update>
+</mapper>

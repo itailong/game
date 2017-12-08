@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+	<!-- 启用Spring注解 -->
+	<context:annotation-config />
+	
+<!-- 	<task:annotation-driven/> -->
+	
+	<!-- 静态资源访问 -->
+	<mvc:default-servlet-handler /> 
+
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:message-converters>
+			<ref bean="mappingJacksonHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<context:component-scan base-package="com.starland.xyqp.gmback" />
+	
+	<mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/"/>
+    		<mvc:mapping path="/**"/>
+    		<mvc:exclude-mapping path="/system/login"/>
+    		<mvc:exclude-mapping path="/system/imageVerifyCode"/>
+    		<mvc:exclude-mapping path="/**/*.*"/>
+    		<bean class="com.starland.xyqp.gmback.interceptor.SystemInterceptor"/>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" >
+			<value><![CDATA[jdbc:mysql://localhost:3306/xyqp?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true]]></value>
+		</property>
+		<property name="user" value="root"/>
+		<property name="password" value="root"/>
+		<!-- 使用maxIdleTime 最大闲置时间来控制MySQL数据库连接断开内保持连接 -->
+		<property name="maxIdleTime" value="25200"/>
+	</bean>
+	
+	<bean id="mybatisConfig" class="org.apache.ibatis.session.Configuration">
+		<property name="logImpl" value="org.apache.ibatis.logging.log4j2.Log4j2Impl"/>
+	</bean>
+
+	<!-- myBatis文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:com/starland/xyqp/gmback/dao/xml/*.xml" />
+		<property name="configuration" ref="mybatisConfig"/>
+		<property name="plugins">
+			<array>
+				<bean class="com.starland.tools.page.PageInterceptor" />
+			</array>
+		</property>
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--创建数据映射器，数据映射器必须为接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.starland.xyqp.gmback.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 拦截器方式配置事物 -->
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="transactionPointcut"
+			expression="execution(* com.starland.xyqp.gmback.service.impl.*.*(..))" />
+		<aop:advisor pointcut-ref="transactionPointcut"
+			advice-ref="transactionAdvice" />
+	</aop:config>
+
+	<!-- web层相关的配置 -->
+	<!-- 配置JSP页面解析器，Spring其实可以支持多种显示，本例子使用jsp作为显示 -->
+	<bean name="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<!-- JSON -->
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+		<property name="serializationInclusion" value="NON_EMPTY" />
+	</bean>
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>*/*;charset=UTF-8</value>
+			</list>
+		</property>
+		<property name="objectMapper" ref="objectMapper" />
+	</bean>
+
+	<!-- 注册转换器 -->
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+	</bean>
+</beans>

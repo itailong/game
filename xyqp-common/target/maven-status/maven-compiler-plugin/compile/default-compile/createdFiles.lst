@@ -1,0 +1,9 @@
+com\starland\xyqp\common\component\ScheduleFactoryBean.class
+com\starland\xyqp\common\exception\LogicException.class
+com\starland\xyqp\common\component\SessionManager.class
+com\starland\xyqp\common\component\GameServerComponent.class
+com\starland\xyqp\common\utils\HttpUtils.class
+com\starland\xyqp\common\exception\UselessRequestException.class
+com\starland\xyqp\common\utils\UUIDUtils.class
+com\starland\xyqp\common\utils\ConfigUtils.class
+com\starland\xyqp\common\exception\ConfigException.class

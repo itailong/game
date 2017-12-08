@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.AgentDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Agent" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="upper_id" property="upperId" />
+		<result column="upper_two_id" property="upperTwoId" />
+		<result column="money" property="money" />
+		<result column="total_income" property="totalIncome" />
+		<result column="create_time" property="createTime" />
+		<result column="telephone" property="telephone" />
+		<result column="real_name" property="realName" />
+		<result column="address" property="address" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			upper_id,
+			upper_two_id,
+			money,
+			total_income,
+			create_time,
+			telephone,
+			real_name,
+			address
+		from gmb_agent
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="upperId != null" >
+				and upper_id = #{upperId}
+			</if>
+			<if test="upperTwoId != null" >
+				and upper_two_id = #{upperTwoId}
+			</if>
+			<if test="money != null" >
+				and money = #{money}
+			</if>
+			<if test="totalIncome != null" >
+				and total_income = #{totalIncome}
+			</if>
+			<if test="createTime != null" >
+				and create_time = #{createTime}
+			</if>
+			<if test="telephone != '' and telephone != null" >
+				and telephone = #{telephone}
+			</if>
+			<if test="realName != '' and realName != null" >
+				and real_name = #{realName}
+			</if>
+			<if test="address != '' and address != null" >
+				and address = #{address}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			upper_id,
+			upper_two_id,
+			money,
+			total_income,
+			create_time,
+			telephone,
+			real_name,
+			address
+		from gmb_agent
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			gmb_agent(
+			upper_id,
+			upper_two_id,
+			money,
+			total_income,
+			create_time,
+			telephone,
+			real_name,
+			address
+		) values(
+			#{upperId},
+			#{upperTwoId},
+			#{money},
+			#{totalIncome},
+			#{createTime},
+			#{telephone},
+			#{realName},
+			#{address}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_agent 
+		set 
+			upper_id = #{upperId},
+			upper_two_id = #{upperTwoId},
+			money = #{money},
+			total_income = #{totalIncome},
+			create_time = #{createTime},
+			telephone = #{telephone},
+			real_name = #{realName},
+			address = #{address}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_agent where id = #{id}
+	</delete>
+	
+</mapper>

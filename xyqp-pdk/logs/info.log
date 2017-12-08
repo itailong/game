@@ -1,0 +1,2 @@
+[09:44:06:028] [INFO] - com.starland.tools.network.NettyServer.start(NettyServer.java:142) - 服务器绑定端口：8580
+[09:44:06:029] [INFO] - com.starland.tools.network.NettyServer.start(NettyServer.java:142) - 服务器绑定端口：8581

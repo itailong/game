@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.QuestionDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Question" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="question_content" property="questionContent" />
+		<result column="question_date" property="questionDate" />
+		<result column="phone" property="phone" />
+	</resultMap>
+	
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			dt_question(
+			user_id,
+			question_content,
+			question_date,
+			phone
+		) values(
+			#{userId},
+			#{questionContent},
+			#{questionDate},
+			#{phone}
+		)
+	</insert>
+	
+</mapper>

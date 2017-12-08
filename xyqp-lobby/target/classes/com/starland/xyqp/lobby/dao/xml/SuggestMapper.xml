@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.SuggestDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Suggest" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="suggest_content" property="suggestContent" />
+		<result column="suggest_date" property="suggestDate" />
+		<result column="phone" property="phone" />
+	</resultMap>
+	
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			dt_suggest(
+			user_id,
+			suggest_content,
+			suggest_date,
+			phone
+		) values(
+			#{userId},
+			#{suggestContent},
+			#{suggestDate},
+			#{phone}
+		)
+	</insert>
+	
+</mapper>

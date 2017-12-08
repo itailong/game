@@ -1,0 +1,92 @@
+.content {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-image: url(../../img/login-back.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.login-panel {
+	box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 10px;
+	top: 20%;
+	border-radius: 3px;
+	display: inherit;
+	opacity: 1;
+	width: 300px;
+	position: absolute;
+	height: 460px;
+	background: white;
+	left: 50%;
+	margin-left: -150px;
+}
+
+.login-title {
+	color: #333;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	font-weight: 700;
+	margin: 16px 0px 0px 20px;
+}
+
+.login-logo {
+	width: 110px;
+	height: 110px;
+	margin: 20px 90px 0px 90px;
+	background-color: #15afef;
+	border-radius: 50%;
+}
+
+.login-input {
+	background-color: #fff;
+	width: 90%;
+	border-radius: 0 0 10px 10px;
+	margin: 20px 5% 6px 5%;
+	height: 30px;
+}
+
+.login-input label {
+	margin-left: 10px;
+	margin-top: 5px;
+	color: #aaa;
+}
+
+.login-input input {
+	outline: 0;
+	font-size: 1.2rem;
+	border: none;
+	width: 80%;
+	margin-left: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.login-msg {
+	color: red;
+	font-size: 12px;
+	margin: 15px 0px 0px 0px;
+	text-align: center;
+	height: 12px;
+}
+
+.btn-login {
+	border-radius: 1px;
+	width: 70%;
+	margin-left: 15%;
+	margin-top: 26px;
+	color: #fff;
+	background: #4a8bc2;
+}
+
+#code-input {
+	margin-top: 20px;
+	margin-left: 50px;
+	margin-bottom: 10px;
+	width: 80px;
+	padding-left: 10px;
+}
+
+#code-img {
+	margin-left: 10px;
+	cursor: pointer;
+}

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.TurntableDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Turntable"
+		id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="share" property="share" />
+		<result column="share_num" property="shareNum" />
+		<result column="lottery" property="lottery" />
+		<result column="prize" property="prize" />
+		<result column="sparrow_share" property="sparrowShare" />
+		<result column="sparrow_num" property="sparrowNum" />
+		<result column="week_sparrow" property="weekSparrow" />
+		<result column="month_sparrow" property="monthSparrow" />
+		<result column="week_negative" property="weekNegative" />
+		<result column="month_negative" property="monthNegative" />
+		<result column="week_roomcard" property="weekRoomcard" />
+		<result column="month_roomcard" property="monthRoomcard" />
+	</resultMap>
+
+	<select id="list" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+			<if test="share != null">
+				and share = #{share}
+			</if>
+			<if test="shareNum != null">
+				and share_num = #{shareNum}
+			</if>
+			<if test="lottery != null">
+				and lottery = #{lottery}
+			</if>
+			<if test="prize != '' and prize != null">
+				and prize = #{prize}
+			</if>
+			<if test="sparrowShare != null">
+				and sparrow_share =
+				#{sparrowShare}
+			</if>
+			<if test="sparrowNum != null">
+				and sparrow_num = #{sparrowNum}
+			</if>
+			<if test="weekSparrow != null">
+				and week_sparrow = #{weekSparrow}
+			</if>
+			<if test="monthSparrow != null">
+				and month_sparrow =
+				#{monthSparrow}
+			</if>
+			<if test="weekNegative != null">
+				and week_negative =
+				#{weekNegative}
+			</if>
+			<if test="monthNegative != null">
+				and month_negative =
+				#{monthNegative}
+			</if>
+			<if test="weekRoomcard != null">
+				and week_roomcard =
+				#{weekRoomcard}
+			</if>
+			<if test="monthRoomcard != null">
+				and month_roomcard =
+				#{monthRoomcard}
+			</if>
+		</where>
+	</select>
+
+	<select id="get" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable
+		where user_id = #{user_id}
+	</select>
+
+	<insert id="add" keyColumn="id" keyProperty="id"
+		useGeneratedKeys="true">
+		insert into
+		dt_turntable(
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		) values(
+		#{userId},
+		#{share},
+		#{shareNum},
+		#{lottery},
+		#{prize},
+		#{sparrowShare},
+		#{sparrowNum},
+		#{weekSparrow},
+		#{monthSparrow},
+		#{weekNegative},
+		#{monthNegative},
+		#{weekRoomcard},
+		#{monthRoomcard}
+		)
+	</insert>
+
+	<update id="update">
+		update dt_turntable
+		set
+		user_id = #{userId},
+		share = #{share},
+		share_num = #{shareNum},
+		lottery = #{lottery},
+		prize = #{prize},
+		sparrow_share = #{sparrowShare},
+		sparrow_num = #{sparrowNum},
+		week_sparrow = #{weekSparrow},
+		month_sparrow = #{monthSparrow},
+		week_negative = #{weekNegative},
+		month_negative = #{monthNegative},
+		week_roomcard = #{weekRoomcard},
+		month_roomcard = #{monthRoomcard}
+		where id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from dt_turntable where id = #{id}
+	</delete>
+
+	<select id="getSparrowWeek" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable order by week_sparrow limit 0,50
+	</select>
+
+	<select id="getSparrowMonth" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable order by month_sparrow limit 0,50
+	</select>
+	<select id="getNegativeWeek" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable order by week_negative limit 0,50
+	</select>
+
+	<select id="getNegativeMonth" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable order by month_negative limit 0,50
+	</select>
+
+	<select id="getRoomCardWeek" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable order by week_roomcard limit 0,50
+	</select>
+
+	<select id="getRoomCardMonth" resultMap="SimpleMap">
+		select
+		id,
+		user_id,
+		share,
+		share_num,
+		lottery,
+		prize,
+		sparrow_share,
+		sparrow_num,
+		week_sparrow,
+		month_sparrow,
+		week_negative,
+		month_negative,
+		week_roomcard,
+		month_roomcard
+		from dt_turntable order by month_roomcard limit 0,50
+	</select>
+</mapper>

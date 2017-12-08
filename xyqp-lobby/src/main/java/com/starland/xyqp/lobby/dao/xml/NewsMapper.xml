@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.NewsDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.News" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="news_title" property="newsTitle" />
+		<result column="news_Introduction" property="newsIntroduction" />
+		<result column="news_content" property="newsContent" />
+		<result column="news_date" property="newsDate" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			news_title,
+			news_Introduction,
+			news_content,
+			news_date
+		from dt_news order by news_date
+	</select>
+	
+</mapper>

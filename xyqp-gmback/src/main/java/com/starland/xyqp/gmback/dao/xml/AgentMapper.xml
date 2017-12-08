@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.AgentDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.Agent" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="upper_id" property="upperId" />
+		<result column="upper_two_id" property="upperTwoId" />
+		<result column="money" property="money" />
+		<result column="total_income" property="totalIncome" />
+		<result column="create_time" property="createTime" />
+		<result column="telephone" property="telephone" />
+		<result column="real_name" property="realName" />
+		<result column="address" property="address" />
+	</resultMap>
+	
+	<resultMap type="com.starland.xyqp.gmback.domain.Agent" id="AgentUserMap">
+		<id column="id" property="id" />
+		<result column="upper_id" property="upperId" />
+		<result column="upper_two_id" property="upperTwoId" />
+		<result column="money" property="money" />
+		<result column="total_income" property="totalIncome" />
+		<result column="create_time" property="createTime" />
+		<result column="telephone" property="telephone" />
+		<result column="real_name" property="realName" />
+		<result column="address" property="address" />
+		<association property="user" javaType="com.starland.xyqp.gmback.domain.User" >
+			<result column="name" property="name" />
+			<result column="sex" property="sex" />
+			<result column="head_img" property="headImg" />
+			<result column="user_type" property="userType" />
+		</association>
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			upper_id,
+			upper_two_id,
+			money,
+			total_income,
+			create_time,
+			telephone,
+			real_name,
+			address
+		from gmb_agent
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="upperId != null" >
+				and upper_id = #{upperId}
+			</if>
+			<if test="upperTwoId != null" >
+				and upper_two_id = #{upperTwoId}
+			</if>
+			<if test="createTime != null" >
+				and create_time = #{createTime}
+			</if>
+			<if test="telephone != '' and telephone != null" >
+				and telephone = #{telephone}
+			</if>
+			<if test="realName != '' and realName != null" >
+				and real_name = #{realName}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			upper_id,
+			upper_two_id,
+			money,
+			total_income,
+			create_time,
+			telephone,
+			real_name,
+			address
+		from gmb_agent
+		where id = #{id}
+	</select>
+	
+	<insert id="add" >
+		insert into 
+			gmb_agent(
+			id,
+			upper_id,
+			upper_two_id,
+			money,
+			total_income,
+			create_time,
+			telephone,
+			real_name,
+			address
+		) values(
+			#{id},
+			#{upperId},
+			#{upperTwoId},
+			#{money},
+			#{totalIncome},
+			#{createTime},
+			#{telephone},
+			#{realName},
+			#{address}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_agent 
+		set 
+			telephone = #{telephone},
+			real_name = #{realName},
+			address = #{address}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_agent where id = #{id}
+	</delete>
+	
+	<select id="findWithUser" resultMap="AgentUserMap">
+		select
+			a.id,
+			a.upper_id,
+			a.upper_two_id,
+			a.money,
+			a.total_income,
+			a.create_time,
+			a.telephone,
+			a.real_name,
+			a.address,
+			u.name,
+			u.sex,
+			u.head_img,
+			u.user_type
+		from gmb_agent as a
+		left join ty_user as u on a.id = u.id
+		<where>
+			<if test="id != null" >
+				and a.id = #{id}
+			</if>
+			<if test="upperId != null" >
+				and a.upper_id = #{upperId}
+			</if>
+			<if test="upperTwoId != null" >
+				and a.upper_two_id = #{upperTwoId}
+			</if>
+			<if test="createTime != null" >
+				and a.create_time = #{createTime}
+			</if>
+			<if test="telephone != '' and telephone != null" >
+				and a.telephone = #{telephone}
+			</if>
+			<if test="realName != '' and realName != null" >
+				and a.real_name = #{realName}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getWithUser" resultMap="AgentUserMap">
+		select
+			a.id,
+			a.upper_id,
+			a.upper_two_id,
+			a.money,
+			a.total_income,
+			a.create_time,
+			a.telephone,
+			a.real_name,
+			a.address,
+			u.name,
+			u.sex,
+			u.head_img,
+			u.user_type
+		from gmb_agent as a
+		left join ty_user as u on a.id = u.id
+		where a.id = #{id}
+	</select>
+	
+	<update id="appendMoney">
+	<![CDATA[
+		update gmb_agent 
+		set 
+			money = money + #{money}
+		where id = #{id} and money + #{money} >= 0
+	]]>
+	</update>
+	
+</mapper>

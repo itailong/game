@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.SystemConfigDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.SystemConfig" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="value" property="value" />
+		<result column="name" property="name" />
+		<result column="description" property="description" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			value,
+			name,
+			description
+		from gmb_system_config
+		<where>
+			<if test="id != '' and id != null" >
+				and id = #{id}
+			</if>
+			<if test="value != '' and value != null" >
+				and value = #{value}
+			</if>
+			<if test="name != '' and name != null" >
+				and name = #{name}
+			</if>
+			<if test="description != '' and description != null" >
+				and description = #{description}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			value,
+			name,
+			description
+		from gmb_system_config
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			gmb_system_config(
+			value,
+			name,
+			description
+		) values(
+			#{value},
+			#{name},
+			#{description}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_system_config 
+		set 
+			value = #{value},
+			name = #{name},
+			description = #{description}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_system_config where id = #{id}
+	</delete>
+	
+</mapper>

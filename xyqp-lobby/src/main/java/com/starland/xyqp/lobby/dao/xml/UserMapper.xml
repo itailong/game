@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.UserDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.User" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="union_id" property="unionId"/>
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="head_img" property="headImg" />
+		<result column="diamond" property="diamond" />
+		<result column="gold" property="gold" />
+		<result column="create_time" property="createTime" />
+		<result column="token" property="token" />
+		<result column="token_time" property="tokenTime" />
+		<result column="user_type" property="userType" />
+		<result column="user_phone" property="userPhone" />
+		<result column="integral" property="integral" />
+		<result column="room_id" property="roomId" />
+		<result column="upper_id" property="upperId" />
+		<result column="temp_upper_id" property="tempUpperId" />
+	</resultMap>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			gold,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			room_id,
+			upper_id,
+			temp_upper_id
+		from ty_user
+		where id = #{id}
+	</select>
+	
+	<select id="getByToken" resultMap="SimpleMap">
+		select
+			id,
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			gold,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			room_id,
+			upper_id,
+			temp_upper_id
+		from ty_user
+		where token = #{token}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			ty_user(
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			gold,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			upper_id,
+			temp_upper_id
+		) values(
+			#{unionId},
+			#{name},
+			#{sex},
+			#{headImg},
+			#{diamond},
+			#{gold},
+			#{createTime},
+			#{token},
+			#{tokenTime},
+			#{userType},
+			#{userPhone},
+			#{integral},
+			#{upperId},
+			#{tempUpperId}
+		)
+	</insert>
+	
+	<update id="update">
+		update ty_user 
+		set 
+			union_id = #{unionId},
+			name = #{name},
+			sex = #{sex},
+			head_img = #{headImg},
+			diamond = #{diamond},
+			gold = #{gold},
+			create_time = #{createTime},
+			token = #{token},
+			token_time = #{tokenTime},
+			user_type = #{userType},
+			user_phone = #{userPhone},
+			integral = #{integral},
+			upper_id = #{upperId},
+			temp_upper_id = #{tempUpperId}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ty_user where id = #{id}
+	</delete>
+	
+	<select id="getByUnionId" resultMap="SimpleMap">
+		select
+			id,
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			gold,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			room_id,
+			upper_id,
+			temp_upper_id
+		from ty_user
+		where union_id = #{unionId}
+	</select>
+	
+	<update id="appendGold">
+		update ty_user 
+		set 
+			gold = gold + #{gold}
+		where id = #{id}
+	</update>
+	
+</mapper>

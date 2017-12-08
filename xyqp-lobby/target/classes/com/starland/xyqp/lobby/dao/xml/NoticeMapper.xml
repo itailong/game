@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.NoticeDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Notice" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="content" property="content" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			content
+		from dt_notice
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			content
+		from dt_notice
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			dt_notice(
+			content
+		) values(
+			#{content}
+		)
+	</insert>
+	
+	<update id="update">
+		update dt_notice 
+		set 
+			content = #{content}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from dt_notice where id = #{id}
+	</delete>
+	
+</mapper>

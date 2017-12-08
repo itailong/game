@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.db.dao.RoomRecordDao">
+
+	<resultMap type="com.starland.xyqp.db.domain.RoomRecord" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="room_id" property="roomId" />
+		<result column="create_time" property="createTime" />
+		<result column="game_name" property="gameName" />
+		<result column="server_id" property="serverId" />
+		<result column="consume" property="consume" />
+		<result column="round_count" property="roundCount" />
+		<result column="creator_id" property="creatorId" />
+		<result column="instead" property="instead" />
+	</resultMap>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			yx_room_record(
+			room_id,
+			create_time,
+			game_name,
+			server_id,
+			consume,
+			round_count,
+			creator_id,
+			instead
+		) values(
+			#{roomId},
+			#{createTime},
+			#{gameName},
+			#{serverId},
+			#{consume},
+			#{roundCount},
+			#{creatorId},
+			#{instead}
+		)
+	</insert>
+	
+</mapper>

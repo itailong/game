@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.db.dao.DiamondConsumeDao">
+
+	<resultMap type="com.starland.xyqp.db.domain.DiamondConsume" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="room_id" property="roomId" />
+		<result column="create_time" property="createTime" />
+		<result column="game_name" property="gameName" />
+		<result column="server_id" property="serverId" />
+		<result column="consume" property="consume" />
+		<result column="round_count" property="roundCount" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			room_id,
+			create_time,
+			game_name,
+			server_id,
+			consume,
+			round_count
+		from gmb_diamond_consume
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="userId != null" >
+				and user_id = #{userId}
+			</if>
+			<if test="roomId != '' and roomId != null" >
+				and room_id = #{roomId}
+			</if>
+			<if test="createTime != null" >
+				and create_time = #{createTime}
+			</if>
+			<if test="gameName != '' and gameName != null" >
+				and game_name = #{gameName}
+			</if>
+			<if test="serverId != null" >
+				and server_id = #{serverId}
+			</if>
+			<if test="consume != null" >
+				and consume = #{consume}
+			</if>
+			<if test="roundCount != null" >
+				and round_count = #{roundCount}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			room_id,
+			create_time,
+			game_name,
+			server_id,
+			consume,
+			round_count
+		from gmb_diamond_consume
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			gmb_diamond_consume(
+			user_id,
+			room_id,
+			create_time,
+			game_name,
+			server_id,
+			consume,
+			round_count
+		) values(
+			#{userId},
+			#{roomId},
+			#{createTime},
+			#{gameName},
+			#{serverId},
+			#{consume},
+			#{roundCount}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_diamond_consume 
+		set 
+			user_id = #{userId},
+			room_id = #{roomId},
+			create_time = #{createTime},
+			game_name = #{gameName},
+			server_id = #{serverId},
+			consume = #{consume},
+			round_count = #{roundCount}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_diamond_consume where id = #{id}
+	</delete>
+	
+</mapper>

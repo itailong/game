@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.DiamondIncomeDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.DiamondIncome" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="buyer_id" property="buyerId" />
+		<result column="buyer_name" property="buyerName" />
+		<result column="create_time" property="createTime" />
+		<result column="income" property="income" />
+		<result column="buy_money" property="buyMoney" />
+		<result column="buy_diamond" property="buyDiamond" />
+		<result column="rate" property="rate" />
+		<result column="down_level" property="downLevel" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			buyer_id,
+			buyer_name,
+			create_time,
+			income,
+			buy_money,
+			buy_diamond,
+			rate,
+			down_level
+		from gmb_diamond_income
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="userId != null" >
+				and user_id = #{userId}
+			</if>
+			<if test="buyerId != null" >
+				and buyer_id = #{buyerId}
+			</if>
+			<if test="buyerName != '' and buyerName != null" >
+				and buyer_name = #{buyerName}
+			</if>
+			<if test="createTime != null" >
+				and create_time = #{createTime}
+			</if>
+			<if test="income != null" >
+				and income = #{income}
+			</if>
+			<if test="buyMoney != null" >
+				and buy_money = #{buyMoney}
+			</if>
+			<if test="buyDiamond != null" >
+				and buy_diamond = #{buyDiamond}
+			</if>
+			<if test="rate != null" >
+				and rate = #{rate}
+			</if>
+			<if test="downLevel != null" >
+				and down_level = #{downLevel}
+			</if>
+			<if test="startTime != null" >
+				and create_time &gt; #{startTime}
+			</if>
+			<if test="endTime != null" >
+				and create_time &lt; #{endTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			user_id,
+			buyer_id,
+			buyer_name,
+			create_time,
+			income,
+			buy_money,
+			buy_diamond,
+			rate,
+			down_level
+		from gmb_diamond_income
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			gmb_diamond_income(
+			user_id,
+			buyer_id,
+			buyer_name,
+			create_time,
+			income,
+			buy_money,
+			buy_diamond,
+			rate,
+			down_level
+		) values(
+			#{userId},
+			#{buyerId},
+			#{buyerName},
+			#{createTime},
+			#{income},
+			#{buyMoney},
+			#{buyDiamond},
+			#{rate},
+			#{downLevel}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_diamond_income 
+		set 
+			user_id = #{userId},
+			buyer_id = #{buyerId},
+			buyer_name = #{buyerName},
+			create_time = #{createTime},
+			income = #{income},
+			buy_money = #{buyMoney},
+			buy_diamond = #{buyDiamond},
+			rate = #{rate},
+			down_level = #{downLevel}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_diamond_income where id = #{id}
+	</delete>
+	
+</mapper>

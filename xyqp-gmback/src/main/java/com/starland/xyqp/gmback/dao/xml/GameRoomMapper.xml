@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.GameRoomDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.GameRoom" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="score" property="score" />
+		<result column="round_count" property="roundCount" />
+		<result column="max_person" property="maxPerson" />
+		<result column="current_person" property="currentPerson" />
+		<result column="server_id" property="serverId" />
+		<result column="game_name" property="gameName" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="instead" property="instead" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			gr.id,
+			gr.score,
+			gr.round_count,
+			gr.max_person,
+			gr.current_person,
+			gr.server_id,
+			gr.game_name,
+			gr.create_time,
+			gr.creator_id,
+			gr.instead
+		from yx_game_room as gr
+		left join yx_game_server as gs on gr.server_id = gs.id
+		<where>
+			<if test="id != '' and id != null" >
+				and gr.id = #{id}
+			</if>
+			<if test="score != null" >
+				and gr.score = #{score}
+			</if>
+			<if test="roundCount != null" >
+				and gr.round_count = #{roundCount}
+			</if>
+			<if test="maxPerson != null" >
+				and gr.max_person = #{maxPerson}
+			</if>
+			<if test="currentPerson != null" >
+				and gr.current_person = #{currentPerson}
+			</if>
+			<if test="serverId != null" >
+				and gr.server_id = #{serverId}
+			</if>
+			<if test="gameName != '' and gameName != null" >
+				and gr.game_name = #{gameName}
+			</if>
+			<if test="createTime != null" >
+				and gr.create_time = #{createTime}
+			</if>
+			<if test="creatorId != null" >
+				and gr.creator_id = #{creatorId}
+			</if>
+			<if test="instead != null" >
+				and gr.instead = #{instead}
+			</if>
+			<if test="gameType != '' and gameType != null" >
+				and gs.game_type = #{gameType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			score,
+			round_count,
+			max_person,
+			current_person,
+			server_id,
+			game_name,
+			create_time,
+			creator_id,
+			instead
+		from yx_game_room
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			yx_game_room(
+			score,
+			round_count,
+			max_person,
+			current_person,
+			server_id,
+			game_name,
+			create_time,
+			creator_id,
+			instead
+		) values(
+			#{score},
+			#{roundCount},
+			#{maxPerson},
+			#{currentPerson},
+			#{serverId},
+			#{gameName},
+			#{createTime},
+			#{creatorId},
+			#{instead}
+		)
+	</insert>
+	
+	<update id="update">
+		update yx_game_room 
+		set 
+			score = #{score},
+			round_count = #{roundCount},
+			max_person = #{maxPerson},
+			current_person = #{currentPerson},
+			server_id = #{serverId},
+			game_name = #{gameName},
+			create_time = #{createTime},
+			creator_id = #{creatorId},
+			instead = #{instead}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from yx_game_room where id = #{id}
+	</delete>
+	
+</mapper>

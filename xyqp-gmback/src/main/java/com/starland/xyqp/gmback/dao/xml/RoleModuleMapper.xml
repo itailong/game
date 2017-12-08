@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.RoleModuleDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.RoleModule" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="role_id" property="roleId" />
+		<result column="module_id" property="moduleId" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			role_id,
+			module_id
+		from gmb_role_module
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="roleId != null" >
+				and role_id = #{roleId}
+			</if>
+			<if test="moduleId != null" >
+				and module_id = #{moduleId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			role_id,
+			module_id
+		from gmb_role_module
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			gmb_role_module(
+			role_id,
+			module_id
+		) values(
+			#{roleId},
+			#{moduleId}
+		)
+	</insert>
+	
+	<update id="update">
+		update gmb_role_module 
+		set 
+			role_id = #{roleId},
+			module_id = #{moduleId}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gmb_role_module where id = #{id}
+	</delete>
+	
+	<delete id="deleteByRoleId">
+		delete from gmb_role_module where role_id = #{roleId}
+	</delete>
+	
+</mapper>

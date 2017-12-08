@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.lobby.dao.VerificationDao">
+
+	<resultMap type="com.starland.xyqp.lobby.domain.Verification" id="SimpleMap">
+		<id column="id" property="id" />
+		<id column="phone" property="phone" />
+		<result column="verification" property="verification" />
+	</resultMap>
+	
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			phone,
+			verification
+		from dt_verification
+		where phone = #{phone}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			dt_verification(
+			verification,
+			phone
+		) values(
+			#{verification},
+			#{phone}
+		)
+	</insert>
+	
+	<update id="update">
+		update dt_verification 
+		set 
+			phone = #{phone},
+			verification = #{verification}
+		where id = #{id}
+	</update>
+	
+</mapper>

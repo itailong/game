@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starland.xyqp.gmback.dao.UserDao">
+
+	<resultMap type="com.starland.xyqp.gmback.domain.User" id="SimpleMap">
+		<id column="id" property="id" />
+		<result column="union_id" property="unionId" />
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="head_img" property="headImg" />
+		<result column="diamond" property="diamond" />
+		<result column="create_time" property="createTime" />
+		<result column="token" property="token" />
+		<result column="token_time" property="tokenTime" />
+		<result column="user_type" property="userType" />
+		<result column="user_phone" property="userPhone" />
+		<result column="integral" property="integral" />
+		<result column="room_id" property="roomId" />
+		<result column="gold" property="gold" />
+		<result column="upper_id" property="upperId" />
+		<result column="password" property="password" />
+	</resultMap>
+	
+	<select id="list" resultMap="SimpleMap">
+		select
+			id,
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			room_id,
+			gold,
+			upper_id,
+			password
+		from ty_user
+		<where>
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="name != '' and name != null" >
+				and name = #{name}
+			</if>
+			<if test="sex != null" >
+				and sex = #{sex}
+			</if>
+			<if test="userType != null" >
+				and user_type = #{userType}
+			</if>
+			<if test="userPhone != '' and userPhone != null" >
+				and user_phone = #{userPhone}
+			</if>
+			<if test="upperId != null" >
+				and upper_id = #{upperId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultMap="SimpleMap">
+		select
+			id,
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			room_id,
+			gold,
+			upper_id,
+			password
+		from ty_user
+		where id = #{id}
+	</select>
+	
+	<insert id="add" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into 
+			ty_user(
+			union_id,
+			name,
+			sex,
+			head_img,
+			diamond,
+			create_time,
+			token,
+			token_time,
+			user_type,
+			user_phone,
+			integral,
+			room_id,
+			gold,
+			upper_id,
+			password
+		) values(
+			#{unionId},
+			#{name},
+			#{sex},
+			#{headImg},
+			#{diamond},
+			#{createTime},
+			#{token},
+			#{tokenTime},
+			#{userType},
+			#{userPhone},
+			#{integral},
+			#{roomId},
+			#{gold},
+			#{upperId},
+			#{password}
+		)
+	</insert>
+	
+	<update id="update">
+		update ty_user 
+		set 
+			union_id = #{unionId},
+			name = #{name},
+			sex = #{sex},
+			head_img = #{headImg},
+			diamond = #{diamond},
+			create_time = #{createTime},
+			token = #{token},
+			token_time = #{tokenTime},
+			user_type = #{userType},
+			user_phone = #{userPhone},
+			integral = #{integral},
+			room_id = #{roomId},
+			gold = #{gold},
+			upper_id = #{upperId},
+			password = #{password}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ty_user where id = #{id}
+	</delete>
+	
+	<update id="appendDiamond">
+		update ty_user 
+		set 
+			diamond = diamond + #{diamond}
+		where id = #{id}
+	</update>
+	
+	<update id="updatePassword">
+		update ty_user 
+		set 
+			password = #{password}
+		where id = #{id}
+	</update>
+	
+</mapper>
